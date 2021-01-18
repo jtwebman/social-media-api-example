@@ -21,9 +21,7 @@ async function getTestContext() {
   return context;
 }
 
-before(async function() {
-  // eslint-disable-next-line no-invalid-this
-  this.timeout(10000);
+before(async () => {
   context = await getTestContext();
 });
 
