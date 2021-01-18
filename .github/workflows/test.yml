@@ -16,11 +16,13 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Npm install
+        run: npm ci
       # Stand up docker compose and test
       - name: Start docker environment for testing
         run: docker-compose up -d 
       - name: Run tests
-        run: npm install && npm test 
+        run: npm test 
       - name: Show docker compose logs
         run: docker-compose logs
         if: ${{ always() }}
