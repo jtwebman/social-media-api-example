@@ -3,8 +3,9 @@
 const http = require('http');
 
 const options = {
-  host: 'localhost',
+  host: '127.0.0.1',
   port: '2368',
+  path: '/status',
   timeout: 2000,
 };
 
