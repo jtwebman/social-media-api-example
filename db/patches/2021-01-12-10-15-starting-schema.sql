@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY NOT NULL,
+  first_name VARCHAR NOT NULL,
+  last_name VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS friends (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  friend_user_id INTEGER NOT NULL REFERENCES users(id)
+);
+
+CREATE INDEX IF NOT EXISTS friend_user_idx ON friends(user_id);
