@@ -13,9 +13,12 @@ const path = require('path');
 const {QueryFile} = require('pg-promise');
 
 const getDBConnection = require('../server/data/get-db-connection');
+const getLogger = require('../server/lib/get-logger');
+const waitDBConnect = require('../server/data/wait-db-connect');
 
 const db = getDBConnection(config);
 const patchFolder = path.join(__dirname, 'patches');
+const logger = getLogger(config);
 
 const migrationTableExistsSql = `SELECT EXISTS (
   SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'migrations'
@@ -30,6 +33,11 @@ CREATE TABLE IF NOT EXISTS migrations (
 const getCurrentMigrationsSql = 'SELECT filename FROM migrations';
 
 const insertPatchRanSql = `INSERT INTO migrations (filename) VALUES ($1)`;
+
+async function makeSureDBisUp() {
+  await waitDBConnect(db, logger);
+  return {db};
+}
 
 /**
  * Adds to the context if the migration table exists
@@ -86,7 +94,7 @@ async function runPatches(context) {
   context.results = [];
   for (let i = 0, len = context.patchesToRun.length; i < len; i++) {
     const filename = context.patchesToRun[i];
-    console.log(`Running ${filename}.`);
+    logger.info(`Running ${filename}.`);
     const sql = new QueryFile(path.join(patchFolder, filename));
     const results = await context.db.none(sql);
     await context.db.none(insertPatchRanSql, filename);
@@ -95,7 +103,8 @@ async function runPatches(context) {
   return context;
 }
 
-migrationTableExists({db})
+makeSureDBisUp()
+  .then(migrationTableExists)
   .then(createMigrationTableIfNeeded)
   .then(getCurrentAppliedPatches)
   .then(getPatchesToRun)

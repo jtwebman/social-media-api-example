@@ -9,7 +9,7 @@ const waitDBConnect = require('./data/wait-db-connect');
  * @param {Object} db the pg-promise pool db object
  * @return {Promise<{config: object, db: object}>} a promise the resolves to the context
  */
-function getTestContext(config, logger, db) {
+function getContext(config, logger, db) {
   return waitDBConnect(db, logger)
     .then(db => {
       return {
@@ -20,4 +20,4 @@ function getTestContext(config, logger, db) {
     });
 }
 
-module.exports = getTestContext;
+module.exports = getContext;
