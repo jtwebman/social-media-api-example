@@ -19,7 +19,7 @@ describe('users', () => {
     supertest(app)
       .get('/api/users')
       .then(res => {
-        assert.equal(res.status, StatusCodes.OK);
+        assert.equal(res.status, StatusCodes.OK, `Did not get status OK: ${JSON.stringify(res, null, 2)}`);
         assert.equal(res.body.page, 1);
         assert.equal(res.body.size, 10);
         assert.equal(res.body.users.length, 10);
@@ -29,7 +29,8 @@ describe('users', () => {
     supertest(app)
       .get('/api/users?page=-1')
       .then(res => {
-        assert.equal(res.status, StatusCodes.BAD_REQUEST);
+        assert.equal(res.status, StatusCodes.BAD_REQUEST,
+          `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
         assert.deepEqual(res.body, ['Page must be greater than or equal to 1']);
       }));
 
@@ -37,7 +38,8 @@ describe('users', () => {
     supertest(app)
       .get('/api/users?size=1000')
       .then(res => {
-        assert.equal(res.status, StatusCodes.BAD_REQUEST);
+        assert.equal(res.status, StatusCodes.BAD_REQUEST,
+          `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
         assert.deepEqual(res.body, ['Size must be less than or equal to 100']);
       }));
 
@@ -45,7 +47,8 @@ describe('users', () => {
     supertest(app)
       .get('/api/users?page=bad&size=break')
       .then(res => {
-        assert.equal(res.status, StatusCodes.BAD_REQUEST);
+        assert.equal(res.status, StatusCodes.BAD_REQUEST,
+          `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
         assert.deepEqual(res.body, [
           'Page must be a valid number',
           'Size must be a valid number',
@@ -56,7 +59,8 @@ describe('users', () => {
     supertest(app)
       .get('/api/users?page=201&size=10')
       .then(res => {
-        assert.equal(res.status, StatusCodes.OK);
+        assert.equal(res.status, StatusCodes.OK,
+          `Did not get status OK: ${JSON.stringify(res, null, 2)}`);
         assert.equal(res.body.users.length, 0);
       }));
 
@@ -65,7 +69,8 @@ describe('users', () => {
       supertest(app)
         .get('/api/users/1/friends')
         .then(res => {
-          assert.equal(res.status, StatusCodes.OK);
+          assert.equal(res.status, StatusCodes.OK,
+            `Did not get status OK: ${JSON.stringify(res, null, 2)}`);
           assert.equal(res.body.page, 1);
           assert.equal(res.body.size, 10);
           assert.equal(res.body.friends.length, 10);
@@ -75,7 +80,8 @@ describe('users', () => {
       supertest(app)
         .get('/api/users/1/friends?page=-1')
         .then(res => {
-          assert.equal(res.status, StatusCodes.BAD_REQUEST);
+          assert.equal(res.status, StatusCodes.BAD_REQUEST,
+            `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
           assert.deepEqual(res.body, ['Page must be greater than or equal to 1']);
         }));
 
@@ -83,7 +89,8 @@ describe('users', () => {
       supertest(app)
         .get('/api/users/1/friends?size=1000')
         .then(res => {
-          assert.equal(res.status, StatusCodes.BAD_REQUEST);
+          assert.equal(res.status, StatusCodes.BAD_REQUEST,
+            `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
           assert.deepEqual(res.body, ['Size must be less than or equal to 100']);
         }));
 
@@ -91,7 +98,8 @@ describe('users', () => {
       supertest(app)
         .get('/api/users/1/friends?page=bad&size=break')
         .then(res => {
-          assert.equal(res.status, StatusCodes.BAD_REQUEST);
+          assert.equal(res.status, StatusCodes.BAD_REQUEST,
+            `Did not get status BAD REQUEST: ${JSON.stringify(res, null, 2)}`);
           assert.deepEqual(res.body, [
             'Page must be a valid number',
             'Size must be a valid number',
@@ -102,7 +110,8 @@ describe('users', () => {
       supertest(app)
         .get('/api/users/1/friends?page=201&size=10')
         .then(res => {
-          assert.equal(res.status, StatusCodes.OK);
+          assert.equal(res.status, StatusCodes.OK,
+            `Did not get status OK: ${JSON.stringify(res, null, 2)}`);
           assert.equal(res.body.friends.length, 0);
         }));
   });
