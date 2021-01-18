@@ -26,7 +26,7 @@ curl "0.0.0.0:3000/api/users/10/friends?page=2&size=50" | jq
 
 # Run tests
 
-I wrote just some simple tests. You can run them with the command below. They do depend on the test data loaded in `db/patches/2021-01-12-11-11-add-test-data.sql` which isn't ideal but good enough for the coding assignment vs writing more test code to load data each test into the db and wiping at the end of the tests which is what I loke to do most of the time in Node.js projects.
+I wrote just some simple tests. You can run them with the command below. They do depend on the test data loaded in `db/patches/2021-01-12-11-11-add-test-data.sql` which isn't ideal but good enough for the coding assignment vs writing more test code to load data each test into the db and wiping at the end of the tests which is what I like to do most of the time in Node.js projects.
 
 ```
 npm test
