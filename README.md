@@ -31,3 +31,11 @@ I wrote jsut some simple tests. You can ru nthem with this command.
 ```
 npm test
 ```
+
+# Shut everything down.
+
+To stop all the docker containers just run the following
+
+```
+docker-compose down
+```
