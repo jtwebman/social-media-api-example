@@ -17,5 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       # Stand up docker compose and test
-      - name: Build the stack and test
-        run: npm install && npm test
+      - name: Start docker environment for testing
+        run: docker-compose up -d 
+      - name: Run tests
+        run: npm test && docker-compose down
+      - name: Stop docker environment for testing
+        run: docker-compose down
